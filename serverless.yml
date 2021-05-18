@@ -1,0 +1,31 @@
+service: async-test
+
+frameworkVersion: "<3.0.0"
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 256
+  region: ap-northeast-1
+  stage: dev
+  lambdaHashingVersion: 20201221
+
+functions:
+  - sync:
+      handler: handler.sync
+      events:
+        - http:
+            path: '/sync'
+            method: GET
+            integration: lambda-proxy
+  - async:
+      handler: handler.async
+      events:
+        - http:
+            path: '/async'
+            method: GET
+            integration: lambda-proxy
+
